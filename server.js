@@ -1,3 +1,15 @@
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors";
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// 🧠 system prompt (optional customization)
+const systemPrompt = "You are FluentLoop, a helpful and concise assistant.";
+
+// 🟩 Chat endpoint
 app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
@@ -19,7 +31,8 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
-    console.log("🧠 RAW OPENAI RESPONSE:", data); // 👈 برای بررسی
+    console.log("🧠 RAW OPENAI RESPONSE:", data);
+
     if (data.error) {
       console.error("❌ API Error:", data.error);
       return res.json({ reply: "⚠️ OpenAI API error: " + data.error.message });
@@ -33,7 +46,17 @@ app.post("/chat", async (req, res) => {
     res.json({ reply });
 
   } catch (error) {
-    console.error("❌ Server-side error:", error);
-    res.status(500).json({ error: "Server error" });
+    console.error("❌ Server error:", error);
+    res.status(500).json({ error: "Server error." });
   }
+});
+
+// 🪶 Root route
+app.get("/", (req, res) => {
+  res.send("FluentLoop Backend Running ✅");
+});
+
+// 🚀 Start server
+const PORT = process.env.PORT || 5000;
+app.listen( console.log(`✅ Server running on port ${PORT}`);
 });
