@@ -1,7 +1,6 @@
 services:
   - type: web
     name: fluentloop
-    env: node
-    plan: free
-    buildCommand: "npm install"
-    startCommand: "npm start"
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
