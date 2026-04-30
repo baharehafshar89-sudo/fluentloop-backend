@@ -1,30 +1,5 @@
-import express from "express";
-import cors from "cors";
-import fetch from "node-fetch";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, "public")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-const systemPrompt = `
-You are FluentLoop AI — a professional and friendly conversational model.
-Answer clearly and naturally.
-`;
-
 app.post("/chat", async (req, res) => {
   try {
-
     const userMessage = req.body.message;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -43,19 +18,17 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
+    console.log("🧩 OpenAI response:", data); // ← اضافه کن برای بررسی خروجی
+
+    if (!data.choices || !data.choices[0]) {
+      return res.json({ reply: "⚠️ API response was invalid or empty." });
+    }
 
     const reply = data.choices[0].message.content;
-
     res.json({ reply });
 
   } catch (error) {
-    console.error(error);
+    console.error("❌ Error during chat:", error);
     res.status(500).json({ error: "Server error" });
   }
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
