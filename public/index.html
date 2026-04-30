@@ -1,1 +1,85 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FluentLoop AI</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+display:flex;
+flex-direction:column;
+height:100vh;
+}
+
+header{
+padding:15px;
+background:#020617;
+font-weight:bold;
+font-size:18px;
+}
+
+#chat{
+flex:1;
+overflow:auto;
+padding:20px;
+}
+
+.message{
+margin-bottom:15px;
+}
+
+.user{
+color:#38bdf8;
+}
+
+.ai{
+color:#22c55e;
+}
+
+#inputBox{
+display:flex;
+padding:10px;
+background:#020617;
+}
+
+input{
+flex:1;
+padding:12px;
+border:none;
+outline:none;
+border-radius:6px;
+}
+
+button{
+margin-left:10px;
+padding:12px 18px;
+background:#22c55e;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>FluentLoop AI</header>
+
+<div id="chat"></div>
+
+<div id="inputBox">
+<input id="input" placeholder="Ask something..." />
+<button onclick="send()">Send</button>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
