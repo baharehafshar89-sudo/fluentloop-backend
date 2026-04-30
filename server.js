@@ -6,14 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// 🧠 system prompt (optional customization)
+// 🧠 System prompt (optional customization)
 const systemPrompt = "You are FluentLoop, a helpful and concise assistant.";
 
-// 🟩 Chat endpoint
+// 🟦 Chat endpoint
 app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
-    if (!userMessage) return res.json({ reply: "No message provided." });
+    if (!userMessage) {
+      return res.json({ reply: "No message provided." });
+    }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -33,11 +35,13 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
     console.log("🧠 RAW OPENAI RESPONSE:", data);
 
+    // If OpenAI returned an error
     if (data.error) {
       console.error("❌ API Error:", data.error);
       return res.json({ reply: "⚠️ OpenAI API error: " + data.error.message });
     }
 
+    // If choices array is missing
     if (!data.choices || !data.choices[0]) {
       return res.json({ reply: "⚠️ No choices returned from API." });
     }
@@ -47,16 +51,18 @@ app.post("/chat", async (req, res) => {
 
   } catch (error) {
     console.error("❌ Server error:", error);
-    res.status(500).json({ error: "Server error." });
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
-// 🪶 Root route
+// 🟩 Root route
 app.get("/", (req, res) => {
   res.send("FluentLoop Backend Running ✅");
 });
 
 // 🚀 Start server
 const PORT = process.env.PORT || 5000;
-app.listen( console.log(`✅ Server running on port ${PORT}`);
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
