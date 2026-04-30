@@ -1,39 +1,47 @@
-const apiUrl = "https://fluentloop-backend.onrender.com/chat";
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
 
-async function sendMessage() {
+function addMessage(text, className){
 
-  const input = document.getElementById("user-input");
-  const chatBox = document.getElementById("chat-box");
+const msg = document.createElement("div");
+msg.className = "message " + className;
+msg.textContent = text;
 
-  const message = input.value.trim();
-  if (!message) return;
+chat.appendChild(msg);
 
-  const userMsg = document.createElement("div");
-  userMsg.innerText = message;
-  chatBox.appendChild(userMsg);
+chat.scrollTop = chat.scrollHeight;
 
-  input.value = "";
+}
 
-  try {
+async function sendMessage(){
 
-    const res = await fetch(apiUrl,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        message: message
-      })
-    });
+const text = input.value.trim();
 
-    const data = await res.json();
+if(!text) return;
 
-    const aiMsg = document.createElement("div");
-    aiMsg.innerText = data.reply || "no response";
+addMessage(text,"user");
 
-    chatBox.appendChild(aiMsg);
+input.value="";
 
-  } catch(err){
+const res = await fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message:text})
+});
+
+const data = await res.json();
+
+addMessage(data.reply,"ai");
+
+}
+
+input.addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+sendMessage();
+}
+});
 
     const errorMsg = document.createElement("div");
     errorMsg.innerText = "server error";
