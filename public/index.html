@@ -1,17 +1,17 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FluentLoop AI</title>
+<title>FluentLoop</title>
 
 <style>
+
 body{
-margin:0;
+background:#0B1120;
 font-family:Arial;
-background:#0f172a;
 color:white;
+margin:0;
 display:flex;
 flex-direction:column;
 height:100vh;
@@ -19,63 +19,65 @@ height:100vh;
 
 header{
 padding:15px;
-background:#020617;
-font-weight:bold;
-font-size:18px;
+font-size:20px;
+border-bottom:1px solid #1E293B;
 }
 
 #chat{
 flex:1;
-overflow:auto;
 padding:20px;
+overflow-y:auto;
 }
 
-.message{
+.msg{
 margin-bottom:15px;
+padding:10px;
+border-radius:8px;
+max-width:70%;
 }
 
 .user{
-color:#38bdf8;
+background:#0AB7A6;
+align-self:flex-end;
 }
 
 .ai{
-color:#22c55e;
+background:#1E293B;
 }
 
 #inputBox{
 display:flex;
-padding:10px;
-background:#020617;
+border-top:1px solid #1E293B;
 }
 
 input{
 flex:1;
-padding:12px;
+padding:15px;
 border:none;
 outline:none;
-border-radius:6px;
+background:#0B1120;
+color:white;
 }
 
 button{
-margin-left:10px;
-padding:12px 18px;
-background:#22c55e;
+background:#0AB7A6;
 border:none;
-border-radius:6px;
+padding:15px;
 cursor:pointer;
 }
+
 </style>
 
 </head>
 
 <body>
 
-<header>FluentLoop AI</header>
+<header>FluentLoop</header>
 
 <div id="chat"></div>
 
 <div id="inputBox">
-<input id="input" placeholder="Ask something..." />
+<input id="input" placeholder="Type a message...">
 <button onclick="send()">Send</button>
 </div>
 
