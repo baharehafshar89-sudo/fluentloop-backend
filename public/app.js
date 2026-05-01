@@ -1,37 +1,35 @@
-
 const chat = document.getElementById("chat");
+
+function addMessage(text, cls){
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
 
 async function send(){
 
-const input = document.getElementById("input");
-const text = input.value;
+  const input = document.getElementById("input");
+  const message = input.value;
 
-if(!text) return;
+  if(!message) return;
 
-addMessage("user", text);
-input.value = "";
+  addMessage(message,"user");
 
-const res = await fetch("https://fluentloop-backend.onrender.com/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({message:text})
-});
+  input.value="";
 
-const data = await res.json();
+  const res = await fetch("/chat",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      message:message
+    })
+  });
 
-addMessage("ai", data.reply);
+  const data = await res.json();
 
-}
-
-function addMessage(role,text){
-
-const div = document.createElement("div");
-div.className = "message " + role;
-div.innerText = text;
-
-chat.appendChild(div);
-chat.scrollTop = chat.scrollHeight;
-
+  addMessage(data.reply,"ai");
 }
